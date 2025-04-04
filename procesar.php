@@ -2,34 +2,25 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$conexion = new mysqli("sql109.infinityfree.com", "if0_38651999", "TU_CONTRASEÑA", "if0_38651999_inventario_db");
+$url = "https://script.google.com/macros/s/TU_URL_DEL_SCRIPT/exec";  // Reemplaza con la URL pública del Apps Script
 
-if ($conexion->connect_error) {
-    die("❌ Error de conexión: " . $conexion->connect_error);
-}
+$datos = json_encode([
+    "producto" => $_POST["producto"],
+    "tipo_movimiento" => $_POST["tipo_movimiento"],
+    "cantidad" => $_POST["cantidad"],
+    "fecha" => $_POST["fecha"],
+    "observaciones" => $_POST["observaciones"]
+]);
 
-// Recibir datos del formulario
-$producto = $_POST['producto'] ?? null;
-$tipo_movimiento = $_POST['tipo_movimiento'] ?? null;
-$cantidad = $_POST['cantidad'] ?? null;
+$opciones = [
+    "http" => [
+        "header" => "Content-Type: application/json",
+        "method" => "POST",
+        "content" => $datos
+    ]
+];
 
-// Validar que los datos no sean nulos
-if (!$producto || !$tipo_movimiento || !$cantidad) {
-    die("❌ Error: Faltan datos en el formulario.");
-}
+$contexto = stream_context_create($opciones);
+file_get_contents($url, false, $contexto);
 
-// Registrar movimiento en la base de datos
-$consulta_movimiento = "INSERT INTO Movimientos (id_material, tipo_movimiento, cantidad, fecha) 
-                        VALUES ('$producto', '$tipo_movimiento', '$cantidad', NOW())";
-
-if ($conexion->query($consulta_movimiento) === TRUE) {
-    echo "✅ Movimiento registrado correctamente.";
-} else {
-    die("❌ Error al insertar movimiento: " . $conexion->error);
-}
-
-// Actualizar saldo del material
-if ($tipo_movimiento == "entrada") {
-    $consulta_saldo = "UPDATE Materiales SET saldo_actual = saldo_actual + $cantidad WHERE d_materialPrimaria = '$producto'";
-} else {
-    $consulta
+echo "✅ Datos enviados a Google Sheets.";
