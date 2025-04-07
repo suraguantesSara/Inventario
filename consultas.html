@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Inventario</title>
+    <link rel="stylesheet" href="consultas.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Consulta de Inventario</h1>
+        <p>Filtra los productos por nombre:</p>
+
+        <input type="text" id="buscar" placeholder="Buscar producto..." onkeyup="filtrarInventario()">
+
+        <table id="tablaInventario">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Tipo de Medida</th>
+                    <th>Última actualización</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+        
+
+        <a href="index.html" class="btn">🔙 Volver</a>
+    </div>
+
+    <script>
+        function filtrarInventario() {
+            let input = document.getElementById("buscar").value.toLowerCase();
+            let filas = document.querySelectorAll("#tablaInventario tbody tr");
+
+            filas.forEach(fila => {
+                let producto = fila.cells[0].textContent.toLowerCase();
+                fila.style.display = producto.includes(input) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+
+</html>
