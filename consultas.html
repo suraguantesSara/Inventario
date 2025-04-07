@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Inventario</title>
     <link rel="stylesheet" href="consultas.css">
 </head>
-
 <body>
     <div class="container">
         <h1>🔍 Consulta de Inventario</h1>
         <p>Filtra los productos por nombre:</p>
-
-        <input type="text" id="buscar" placeholder="Buscar producto..." onkeyup="filtrarInventario()">
+        
+        <input type="text" id="buscar" placeholder="Buscar producto...">
+        <button onclick="filtrarInventario()" class="btn">🔍 Buscar</button>
 
         <table id="tablaInventario">
             <thead>
@@ -22,11 +21,34 @@
                     <th>Cantidad</th>
                     <th>Tipo de Medida</th>
                     <th>Última actualización</th>
+                    <th>Movimiento</th> <!-- Nueva columna -->
                     <th>Observaciones</th>
                 </tr>
             </thead>
-        
+            <tbody>
+                <?php
+                require 'conexion.php';
+                $consulta = "SELECT producto, cantidad, tipo_medida, fecha, tipo_movimiento, observaciones FROM Movimientos ORDER BY fecha DESC";
+                $resultado = $conexion->query($consulta);
 
+                if ($resultado->num_rows > 0) {
+                    while ($fila = $resultado->fetch_assoc()) {
+                        echo "<tr>
+                            <td>{$fila['producto']}</td>
+                            <td>{$fila['cantidad']}</td>
+                            <td>{$fila['tipo_medida']}</td>
+                            <td>{$fila['fecha']}</td>
+                            <td>" . ($fila['tipo_movimiento'] == 'entrada' ? '📥 Entrada' : '📤 Salida') . "</td> 
+                            <td>{$fila['observaciones']}</td>
+                        </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>No hay registros disponibles.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        
         <a href="index.html" class="btn">🔙 Volver</a>
     </div>
 
@@ -42,5 +64,5 @@
         }
     </script>
 </body>
-
+</html>
 </html>
