@@ -4,80 +4,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>replit</title>
+  <title>Inventario</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+  <label for="producto">Producto:</label>
+  <select id="producto" name="producto" required>
+    <option value="" disabled selected>Selecciona un producto</option>
+    <option value="VAQUETA VERDE">Vaqueta Verde</option>
+    <option value="VAQUETA AMARILLA">Vaqueta Amarilla</option>
+    <option value="RETAL VAQUETA AMARILLA">Retal Vaqueta Amarilla</option>
+    <option value="VAQUETA NATURAL">Vaqueta Natural</option>
+    <option value="RETAL VAQUETA NATURAL">Retal Vaqueta Natural</option>
+    <option value="VAQUETA TULA NEGRA">Vaqueta Tula Negra</option>
+    <option value="RETAL DE VAQUETA CAFÉ">Retal de Vaqueta Café</option>
+    <option value="VAQUETA TULA CAFÉ">Vaqueta Tula Café</option>
+    <option value="CARNAZA GRIS">Carnaza Gris</option>
+    <option value="RETAL VAQUETA NEGRA">Retal Vaqueta Negra</option>
+    <option value="RETAL DE CARNAZA GRIS">Retal de Carnaza Gris</option>
+    <option value="CARNAZA AMARILLA">Carnaza Amarilla</option>
+    <option value="RETAL CARNAZA AMARILLA">Retal Carnaza Amarilla</option>
+    <option value="CARNAZA VERDE">Carnaza Verde</option>
+    <option value="CARNAZA NEGRA">Carnaza Negra</option>
+    <option value="CAÑAMO">Cañamo</option>
+    <option value="HULE ATOM">Hule Atom</option>
+    <option value="HULE CORTERO">Hule Cortero</option>
+    <option value="LONA CARPA">Lona Carpa</option>
+    <option value="FIELTRO">Fieltro</option>
+    <option value="NEOPRENO">Neopreno</option>
+    <option value="LONA CRUDA">Lona Cruda</option>
+    <option value="ESCORIAL">Escorial</option>
+    <option value="ESPUMA ESCARABAJO">Espuma Escarabajo</option>
+    <option value="DRACRON BLOQUE">Dracron Bloque</option>
+    <option value="TELA FLIX">Tela Flix</option>
+    <option value="TELA PERCHADA">Tela Perchada</option>
+    <option value="TRICOT">Tricot</option>
+    <option value="CUERO ALCANINO">Cuero Alcanino</option>
+    <option value="JEAN EN BLOQUE AZT">Jean en Bloque AZT</option>
+    <option value="JEAN EN BLOQUE BLANCO">Jean en Bloque Blanco</option>
+    <option value="JEAN MENOS DE METRO X KILOS">Jean menos de metro x kilos</option>
+    <option value="Cartucho de 140 Izq">Cartucho de 140 Izq</option>
+    <option value="Cartucho Peq de 60 Izq">Cartucho Peq de 60 Izq</option>
+    <option value="Manopla de 142 Izq">Manopla de 142 Izq</option>
+    <option value="Manopla de 142 Der">Manopla de 142 Der</option>
+    <option value="Manopla de 100 Izq">Manopla de 100 Izq</option>
+  </select>
 
-  <form action="procesar.php" method="post">
-    <h2>Registro de Inventario</h2>
+  <label for="tipo_medida">Tipo de Medida:</label>
+  <select id="tipo_medida" name="tipo_medida" required>
+    <option value="pies">Pies</option>
+    <option value="metros">Metros</option>
+    <option value="unidad">Unidad</option>
+  </select>
 
-    <label for="producto">Producto:</label>
-    <select id="producto" name="producto" required>
-      <option value="" disabled selected>Selecciona un producto</option>
-      <option value="VAQUETA VERDE">Vaqueta Verde</option>
-      <option value="VAQUETA AMARILLA">Vaqueta Amarilla</option>
-      <option value="RETAL VAQUETA AMARILLA">Retal Vaqueta Amarilla</option>
-      <option value="VAQUETA NATURAL">Vaqueta Natural</option>
-      <option value="RETAL VAQUETA NATURAL">Retal Vaqueta Natural</option>
-      <option value="VAQUETA TULA NEGRA">Vaqueta Tula Negra</option>
-      <option value="RETAL DE VAQUETA CAFÉ">Retal de Vaqueta Café</option>
-      <option value="VAQUETA TULA CAFÉ">Vaqueta Tula Café</option>
-      <option value="CARNAZA GRIS">Carnaza Gris</option>
-      <option value="RETAL VAQUETA NEGRA">Retal Vaqueta Negra</option>
-      <option value="RETAL DE CARNAZA GRIS">Retal de Carnaza Gris</option>
-      <option value="CARNAZA AMARILLA">Carnaza Amarilla</option>
-      <option value="RETAL CARNAZA AMARILLA">Retal Carnaza Amarilla</option>
-      <option value="CARNAZA VERDE">Carnaza Verde</option>
-      <option value="CARNAZA NEGRA">Carnaza Negra</option>
-      <option value="CAÑAMO">Cañamo</option>
-      <option value="HULE ATOM">Hule Atom</option>
-      <option value="HULE CORTERO">Hule Cortero</option>
-      <option value="LONA CARPA">Lona Carpa</option>
-      <option value="FIELTRO">Fieltro</option>
-      <option value="NEOPRENO">Neopreno</option>
-      <option value="LONA CRUDA">Lona Cruda</option>
-      <option value="ESCORIAL">Escorial</option>
-      <option value="ESPUMA ESCARABAJO">Espuma Escarabajo</option>
-      <option value="DRACRON BLOQUE">Dracron Bloque</option>
-      <option value="TELA FLIX">Tela Flix</option>
-      <option value="TELA PERCHADA">Tela Perchada</option>
-      <option value="TRICOT">Tricot</option>
-      <option value="CUERO ALCANINO">Cuero Alcanino</option>
-      <option value="JEAN EN BLOQUE AZT">Jean en Bloque AZT</option>
-      <option value="JEAN EN BLOQUE BLANCO">Jean en Bloque Blanco</option>
-      <option value="JEAN MENOS DE METRO X KILOS">Jean menos de metro x kilos</option>
-      <option value="Cartucho de 140 Izq">Cartucho de 140 Izq</option>
-      <option value="Cartucho Peq de 60 Izq">Cartucho Peq de 60 Izq</option>
-      <option value="Manopla de 142 Izq">Manopla de 142 Izq</option>
-      <option value="Manopla de 142 Der">Manopla de 142 Der</option>
-      <option value="Manopla de 100 Izq">Manopla de 100 Izq</option>
-    </select>
+  <label for="tipo_movimiento">Tipo de Movimiento:</label>
+  <select id="tipo_movimiento" name="tipo_movimiento" required>
+    <option value="entrada">Entrada</option>
+    <option value="salida">Salida</option>
+  </select>
 
-    <label for="tipo_medida">Tipo de Medida:</label>
-    <select id="tipo_medida" name="tipo_medida" required>
-      <option value="pies">Pies</option>
-      <option value="metros">Metros</option>
-      <option value="unidad">Unidad</option>
-    </select>
+  <label for="cantidad">Cantidad:</label>
+  <input type="number" id="cantidad" name="cantidad" required>
 
-    <label for="tipo_movimiento">Tipo de Movimiento:</label>
-    <select id="tipo_movimiento" name="tipo_movimiento" required>
-      <option value="entrada">Entrada</option>
-      <option value="salida">Salida</option>
-    </select>
+  <label for="fecha">Fecha:</label>
+  <input type="date" id="fecha" name="fecha" required>
 
-    <label for="cantidad">Cantidad:</label>
-    <input type="number" id="cantidad" name="cantidad" required>
+  <label for="observaciones">Observaciones:</label>
+  <textarea id="observaciones" name="observaciones"></textarea>
 
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" required>
-
-    <label for="observaciones">Observaciones:</label>
-    <textarea id="observaciones" name="observaciones"></textarea>
-
-    <button type="submit">Registrar Movimiento</button>
+  <button type="submit">Registrar Movimiento</button>
+  <a href="index.html"><button type="submit">Atras</button></a>
   </form>
 
 </body>
