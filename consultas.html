@@ -68,5 +68,18 @@ function filtrarInventario() {
     });
 }
 </script>
+    <script>
+document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
+
+function filtrarInventario() {
+    let input = document.getElementById("buscar").value.toLowerCase();
+    let filas = document.querySelectorAll("#tablaInventario tbody tr");
+
+    filas.forEach(fila => {
+        let producto = fila.cells[0]?.textContent.toLowerCase(); // Verificamos que la celda existe
+        fila.style.display = producto.includes(input) ? "" : "none";
+    });
+}
+</script>
 </body>
 </html>
