@@ -25,4 +25,15 @@ $contexto = stream_context_create($opciones);
 $response = file_get_contents($url, false, $contexto);
 
 echo "✅ Respuesta del servidor: " . $response;
+
+
+// Si se hace una petición GET, enviamos los datos almacenados en Google Sheets
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header("Content-Type: application/json");
+    $url = "https://script.google.com/macros/s/AKfycbzRO7aDjWQ76e23GZy8mF0EH912TJDS3h2WejCUk3e3ownvXMrnZjPpjZmLhBlylb20/exec";
+    $response = file_get_contents($url);
+    echo $response;
+    exit;
+}
+
 ?>
