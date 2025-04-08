@@ -11,7 +11,7 @@
         <h1>🔍 Consulta de Inventario</h1>
         <p>Filtra los productos por nombre:</p>
         
-        <input type="text" id="buscar" placeholder="Buscar producto..." onkeyup="filtrarInventario()">
+        <input type="text" id="buscar" placeholder="Buscar producto...">
         <button id="btnBuscar" class="btn">🔍 Buscar</button>
 
         <table id="tablaInventario">
@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Aquí se cargarán los datos dinámicamente -->
+                <!-- Los datos se insertarán aquí -->
             </tbody>
         </table>
         
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error("❌ Error al obtener datos:", error));
 });
 
-// Filtrar correctamente los productos en tiempo real
+// Filtrar correctamente los productos
 function filtrarInventario() {
     let input = document.getElementById("buscar").value.trim().toLowerCase();
     let filas = document.querySelectorAll("#tablaInventario tbody tr");
@@ -72,6 +72,6 @@ function filtrarInventario() {
 document.getElementById("buscar").addEventListener("input", filtrarInventario);
 document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
 </script>
-    
+
 </body>
 </html>
