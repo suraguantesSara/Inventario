@@ -34,37 +34,27 @@
     </div>
 
     <script>
-        // Obtener datos desde consultas.php
-        fetch("https://tu-app.onrender.com/consultas.php")
-            .then(response => response.json())
-            .then(datos => {
-                let tabla = document.querySelector("#tablaInventario tbody");
-                tabla.innerHTML = ""; // Limpiar la tabla antes de insertar datos
+      <script>
+fetch("https://tu-app.onrender.com/consultas.php")
+    .then(response => response.json())
+    .then(datos => {
+        let tabla = document.querySelector("#tablaInventario tbody");
+        tabla.innerHTML = ""; // Limpiar la tabla antes de insertar datos
 
-                datos.forEach(item => {
-                    let fila = `<tr>
-                        <td>${item.producto}</td>
-                        <td>${item.cantidad}</td>
-                        <td>${item.tipo_medida}</td>
-                        <td>${item.fecha}</td>
-                        <td>${item.entrada_salida === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
-                        <td>${item.observaciones}</td>
-                    </tr>`;
-                    tabla.innerHTML += fila;
-                });
-            })
-            .catch(error => console.error("❌ Error al obtener datos:", error));
-
-        // Filtrar datos en la tabla
-        function filtrarInventario() {
-            let input = document.getElementById("buscar").value.toLowerCase();
-            let filas = document.querySelectorAll("#tablaInventario tbody tr");
-
-            filas.forEach(fila => {
-                let producto = fila.cells[0].textContent.toLowerCase();
-                fila.style.display = producto.includes(input) ? "" : "none";
-            });
-        }
+        datos.forEach(item => {
+            let fila = `<tr>
+                <td>${item[0]}</td> <!-- Producto -->
+                <td>${item[1]}</td> <!-- Cantidad -->
+                <td>${item[2]}</td> <!-- Tipo Medida -->
+                <td>${item[3]}</td> <!-- Fecha -->
+                <td>${item[4] === "entrada" ? "📥 Entrada" : "📤 Salida"}</td> <!-- Movimiento -->
+                <td>${item[5]}</td> <!-- Observaciones -->
+            </tr>`;
+            tabla.innerHTML += fila;
+        });
+    })
+    .catch(error => console.error("❌ Error al obtener datos:", error));
+</script>
     </script>
 </body>
 </html>
