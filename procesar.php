@@ -29,23 +29,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(["status" => "success", "message" => "✅ Datos guardados correctamente en Google Sheets.", "response" => $response]);
     exit;
 }
-
-<?php
-header('Content-Type: application/json');
-include 'conexion.php'; // Asegúrate de que la conexión esté bien configurada
-
-if (isset($_GET['producto'])) {
-    $producto = $_GET['producto'];
-    $consulta = $conn->prepare("SELECT * FROM inventario WHERE producto LIKE ?");
-    $consulta->execute(["%$producto%"]);
-    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode($resultado);
-} else {
-    // Si no se envía ningún producto específico, mostramos todos los registros
-    $consulta = $conn->query("SELECT * FROM inventario");
-    $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($datos);
-}
 ?>
 
