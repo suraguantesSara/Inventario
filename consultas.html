@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos.forEach(item => {
                 let fila = document.createElement("tr");
                 fila.innerHTML = `
-                    <td>${item.producto}</td>
+                    <td class="producto">${item.producto}</td>
                     <td>${item.cantidad}</td>
                     <td>${item.tipo_medida}</td>
                     <td>${item.fecha}</td>
@@ -57,16 +57,18 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error("❌ Error al obtener datos:", error));
 });
 
+// Filtrar correctamente los productos en tiempo real
 function filtrarInventario() {
-    let input = document.getElementById("buscar").value.toLowerCase();
+    let input = document.getElementById("buscar").value.trim().toLowerCase();
     let filas = document.querySelectorAll("#tablaInventario tbody tr");
 
     filas.forEach(fila => {
-        let producto = fila.cells[0]?.textContent.toLowerCase() || "";
+        let producto = fila.querySelector(".producto")?.textContent.toLowerCase() || "";
         fila.style.display = producto.includes(input) ? "" : "none";
     });
 }
 
+// Activar el filtro al escribir o hacer clic en Buscar
 document.getElementById("buscar").addEventListener("input", filtrarInventario);
 document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
 </script>
