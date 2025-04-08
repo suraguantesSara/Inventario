@@ -8,29 +8,37 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔍 Consulta de Inventario</h1>
-        <p>Filtra los productos por nombre:</p>
+        <header>
+            <h1>🔍 Consulta de Inventario</h1>
+        </header>
 
-        <input type="text" id="buscar" placeholder="Buscar producto...">
-        <button id="btnBuscar" class="btn">🔍 Buscar</button>
+        <section class="filtros">
+            <h2>Filtrar productos</h2>
+            <input type="text" id="buscar" placeholder="Escribe aquí para buscar...">
+            <button id="btnBuscar" class="btn">🔍 Buscar</button>
+        </section>
 
-        <table id="tablaInventario">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Tipo de Medida</th>
-                    <th>Última actualización</th>
-                    <th>Movimiento</th>
-                    <th>Observaciones</th>
-                </tr>
-            </thead>
-            <tbody id="tablaCuerpo">
-                <!-- Aquí se insertarán los datos dinámicamente -->
-            </tbody>
-        </table>
+        <section class="tabla-container">
+            <table id="tablaInventario">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Tipo de Medida</th>
+                        <th>Última actualización</th>
+                        <th>Movimiento</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCuerpo">
+                    <!-- Aquí se insertarán los datos dinámicamente -->
+                </tbody>
+            </table>
+        </section>
 
-        <a href="index.html" class="btn">🔙 Volver</a>
+        <footer>
+            <a href="index.html" class="btn">🔙 Volver</a>
+        </footer>
     </div>
 
 <script>
@@ -53,6 +61,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 `;
                 tabla.appendChild(fila); // Insertar fila en la tabla
             });
+
+            // Activamos el filtro de búsqueda después de cargar los datos
+            document.getElementById("buscar").addEventListener("input", filtrarInventario);
+            document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
         })
         .catch(error => console.error("❌ Error al obtener datos:", error));
 });
@@ -67,10 +79,6 @@ function filtrarInventario() {
         fila.style.display = producto.includes(input) ? "" : "none";
     });
 }
-
-// Activar el filtro al escribir o hacer clic en Buscar
-document.getElementById("buscar").addEventListener("input", filtrarInventario);
-document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
 </script>
 
 </body>
