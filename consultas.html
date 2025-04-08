@@ -33,7 +33,7 @@
         <a href="index.html" class="btn">🔙 Volver</a>
     </div>
 
-    <script>
+<script>
 fetch("https://inventario-l1it.onrender.com/procesar.php")
     .then(response => response.json())
     .then(datos => {
@@ -41,18 +41,32 @@ fetch("https://inventario-l1it.onrender.com/procesar.php")
         tabla.innerHTML = ""; // Limpiar la tabla antes de insertar datos
 
         datos.forEach(item => {
-            let fila = `<tr>
+            let fila = document.createElement("tr");
+            fila.innerHTML = `
                 <td>${item.producto}</td>
                 <td>${item.cantidad}</td>
                 <td>${item.tipo_medida}</td>
                 <td>${item.fecha}</td>
                 <td>${item.entrada_salida === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
                 <td>${item.observaciones}</td>
-            </tr>`;
-            tabla.innerHTML += fila;
+            `;
+            tabla.appendChild(fila);
         });
+
+        // Activar el filtro de búsqueda al escribir
+        document.getElementById("buscar").addEventListener("input", filtrarInventario);
     })
     .catch(error => console.error("❌ Error al obtener datos:", error));
+
+function filtrarInventario() {
+    let input = document.getElementById("buscar").value.toLowerCase();
+    let filas = document.querySelectorAll("#tablaInventario tbody tr");
+
+    filas.forEach(fila => {
+        let producto = fila.cells[0]?.textContent.toLowerCase(); // Verificamos si la celda existe
+        fila.style.display = producto.includes(input) ? "" : "none";
+    });
+}
 </script>
 </body>
 </html>
