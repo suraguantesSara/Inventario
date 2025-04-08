@@ -10,7 +10,7 @@
     <div class="container">
         <h1>🔍 Consulta de Inventario</h1>
         <p>Filtra los productos por nombre:</p>
-        
+
         <input type="text" id="buscar" placeholder="Buscar producto...">
         <button id="btnBuscar" class="btn">🔍 Buscar</button>
 
@@ -25,11 +25,11 @@
                     <th>Observaciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Los datos se insertarán aquí -->
+            <tbody id="tablaCuerpo">
+                <!-- Aquí se insertarán los datos dinámicamente -->
             </tbody>
         </table>
-        
+
         <a href="index.html" class="btn">🔙 Volver</a>
     </div>
 
@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch("https://inventario-l1it.onrender.com/procesar.php")
         .then(response => response.json())
         .then(datos => {
-            let tabla = document.querySelector("#tablaInventario tbody");
-            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar datos
+            let tabla = document.getElementById("tablaCuerpo");
+            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los datos
 
             datos.forEach(item => {
                 let fila = document.createElement("tr");
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${item.entrada_salida === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
                     <td>${item.observaciones}</td>
                 `;
-                tabla.appendChild(fila);
+                tabla.appendChild(fila); // Insertar fila en la tabla
             });
         })
         .catch(error => console.error("❌ Error al obtener datos:", error));
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // Filtrar correctamente los productos
 function filtrarInventario() {
     let input = document.getElementById("buscar").value.trim().toLowerCase();
-    let filas = document.querySelectorAll("#tablaInventario tbody tr");
+    let filas = document.querySelectorAll("#tablaCuerpo tr");
 
     filas.forEach(fila => {
         let producto = fila.querySelector(".producto")?.textContent.toLowerCase() || "";
