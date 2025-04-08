@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Inventario</title>
-    <link rel="stylesheet" href="consultas.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -23,7 +23,7 @@
                         <th>Cantidad</th>
                         <th>Tipo de Medida</th>
                         <th>Fecha</th>
-                        <th>Movimiento</th>
+                        <th>Tipo Movimiento</th>
                         <th>Observaciones</th>
                     </tr>
                 </thead>
@@ -40,41 +40,43 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    fetch("https://inventario-l1it.onrender.com/consultas.php")
+    cargarDatos(); // Cargar todos los registros al inicio
+
+    document.getElementById("btnBuscar").addEventListener("click", function() {
+        let input = document.getElementById("buscar").value.trim().toLowerCase();
+        filtrarInventario(input); // Filtrar los datos sin ocultarlos completamente
+    });
+});
+
+function cargarDatos() {
+    fetch("https://inventario-l1it.onrender.com/script_google.php") // Solo obtenemos datos de Google Apps Script
         .then(response => response.json())
         .then(datos => {
             let tabla = document.getElementById("tablaCuerpo");
-            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los datos
+            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los nuevos datos
 
-    datos.forEach(item => {
-    let fila = document.createElement("tr");
-    fila.innerHTML = `
-        <td class="producto">${item.producto}</td>
-        <td>${item.cantidad}</td>
-        <td>${item.tipo_medida}</td>
-        <td>${item.fecha}</td>
-        <td>${item.tipo_movimiento === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
-        <td>${item.observaciones}</td>
-    `;
-    tabla.appendChild(fila); // Insertar fila en la tabla
-});
+            datos.forEach(item => {
+                let fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td class="producto">${item.producto}</td>
+                    <td>${item.cantidad}</td>
+                    <td>${item.tipo_medida}</td>
+                    <td>${item.fecha}</td>
+                    <td>${item.tipo_movimiento === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
+                    <td>${item.observaciones}</td>
+                `;
+                tabla.appendChild(fila); // Insertar fila en la tabla
             });
-
-            // Activamos el filtro después de cargar los datos
-            document.getElementById("buscar").addEventListener("input", filtrarInventario);
-            document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
         })
         .catch(error => console.error("❌ Error al obtener datos:", error));
-});
+}
 
-// Filtrar los productos en tiempo real
-function filtrarInventario() {
-    let input = document.getElementById("buscar").value.trim().toLowerCase();
+function filtrarInventario(busqueda) {
     let filas = document.querySelectorAll("#tablaCuerpo tr");
 
     filas.forEach(fila => {
         let producto = fila.querySelector(".producto")?.textContent.toLowerCase() || "";
-        fila.style.display = producto.includes(input) ? "" : "none";
+        fila.style.display = producto.includes(busqueda) ? "" : "none";
     });
 }
 </script>
