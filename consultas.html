@@ -46,17 +46,18 @@ document.addEventListener("DOMContentLoaded", function() {
             let tabla = document.getElementById("tablaCuerpo");
             tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los datos
 
-            datos.forEach(item => {
-                let fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td class="Producto">${item.producto}</td>
-                    <td>${item.Cantidad}</td>
-                    <td>${item.Tipo Medida}</td>
-                    <td>${item.Fecha}</td>
-                    <td>${item.Tipo Movimiento === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
-                    <td>${item.Observaciones}</td>
-                `;
-                tabla.appendChild(fila); // Insertar fila en la tabla
+    datos.forEach(item => {
+    let fila = document.createElement("tr");
+    fila.innerHTML = `
+        <td class="producto">${item.producto}</td>
+        <td>${item.cantidad}</td>
+        <td>${item.tipo_medida}</td>
+        <td>${item.fecha}</td>
+        <td>${item.tipo_movimiento === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
+        <td>${item.observaciones}</td>
+    `;
+    tabla.appendChild(fila); // Insertar fila en la tabla
+});
             });
 
             // Activamos el filtro después de cargar los datos
