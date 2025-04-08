@@ -21,31 +21,12 @@
                     <th>Cantidad</th>
                     <th>Tipo de Medida</th>
                     <th>Última actualización</th>
-                    <th>Movimiento</th> <!-- Nueva columna -->
+                    <th>Movimiento</th>
                     <th>Observaciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                require 'conexion.php';
-                $consulta = "SELECT producto, cantidad, tipo_medida, fecha, tipo_movimiento, observaciones FROM Movimientos ORDER BY fecha DESC";
-                $resultado = $conexion->query($consulta);
-
-                if ($resultado->num_rows > 0) {
-                    while ($fila = $resultado->fetch_assoc()) {
-                        echo "<tr>
-                            <td>{$fila['producto']}</td>
-                            <td>{$fila['cantidad']}</td>
-                            <td>{$fila['tipo_medida']}</td>
-                            <td>{$fila['fecha']}</td>
-                            <td>" . ($fila['tipo_movimiento'] == 'entrada' ? '📥 Entrada' : '📤 Salida') . "</td> 
-                            <td>{$fila['observaciones']}</td>
-                        </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='6'>No hay registros disponibles.</td></tr>";
-                }
-                ?>
+                <!-- Aquí se cargarán los datos dinámicamente -->
             </tbody>
         </table>
         
@@ -53,6 +34,28 @@
     </div>
 
     <script>
+        // Obtener datos desde consultas.php
+        fetch("https://tu-app.onrender.com/consultas.php")
+            .then(response => response.json())
+            .then(datos => {
+                let tabla = document.querySelector("#tablaInventario tbody");
+                tabla.innerHTML = ""; // Limpiar la tabla antes de insertar datos
+
+                datos.forEach(item => {
+                    let fila = `<tr>
+                        <td>${item.producto}</td>
+                        <td>${item.cantidad}</td>
+                        <td>${item.tipo_medida}</td>
+                        <td>${item.fecha}</td>
+                        <td>${item.entrada_salida === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
+                        <td>${item.observaciones}</td>
+                    </tr>`;
+                    tabla.innerHTML += fila;
+                });
+            })
+            .catch(error => console.error("❌ Error al obtener datos:", error));
+
+        // Filtrar datos en la tabla
         function filtrarInventario() {
             let input = document.getElementById("buscar").value.toLowerCase();
             let filas = document.querySelectorAll("#tablaInventario tbody tr");
@@ -64,5 +67,4 @@
         }
     </script>
 </body>
-</html>
 </html>
