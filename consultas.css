@@ -14,12 +14,14 @@ body {
 
 .filtro {
     position: sticky;
-    top: 0;
+    top: 10px;
     background-color: white;
     padding: 10px;
     text-align: center;
-    z-index: 1000; /* Mantenerlo por encima de la tabla */
+    z-index: 1000; /* Asegura que quede sobre la tabla */
+    width: 100%; /* Se ajusta al ancho de la página */
 }
+
 .container {
     background: rgba(255, 255, 255, 0.1);
     padding: 30px;
@@ -110,4 +112,9 @@ td:last-child {
 
 .btn:hover {
     background: #e65100;
+}
+.tabla-container {
+    margin-top: 60px; /* Deja espacio debajo del buscador */
+    max-height: 400px; /* Ajusta la altura de la tabla */
+    overflow-y: auto; /* Agrega desplazamiento interno */
 }
