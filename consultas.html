@@ -3,83 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Inventario</title>
+    <title>Consultar Pedidos</title>
     <link rel="stylesheet" href="consultas.css">
 </head>
 <body>
+
     <div class="container">
-        <h1>🔍 Consulta de Inventario</h1>
+        <h1>📊 Consulta de Pedidos</h1>
 
-        <section class="filtro">
-            <input type="text" id="buscar" placeholder="Buscar producto...">
-            <button id="btnBuscar">🔍 Buscar</button>
-        </section>
+        <form method="GET" action="consultas.php" class="consulta-form">
+            <label for="filtro">Seleccionar filtro de búsqueda:</label>
+            <select name="filtro" id="filtro">
+                <option value="remision">Número de Remisión</option>
+                <option value="articulo">Artículo</option>
+                <option value="taller">Taller</option>
+                <option value="fecha">Fecha de Despacho</option>
+            </select>
 
-        <section class="tabla-container">
-            <table id="tablaInventario">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Tipo de Medida</th>
-            <th>Tipo de Movimoento</th>
-            <th>Fecha</th>
-            <th>Cantidad</th>
-            <th>Observaciones</th>
-        </tr>
-    </thead>
-    <tbody id="tablaCuerpo">
-        <!-- Aquí se insertarán los datos dinámicamente -->
-    </tbody>
-</table>
-            
-        </section>
+            <input type="text" name="valor" placeholder="Ingrese el valor del filtro">
+            <button type="submit">🔍 Buscar</button>
+        </form>
 
-        <footer>
-            <button onclick="window.location.href='index.html'">🔙 Atrás</button>
-        </footer>
     </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    cargarDatos(); // Cargar todos los registros al inicio
-
-    document.getElementById("btnBuscar").addEventListener("click", function() {
-        let input = document.getElementById("buscar").value.trim().toLowerCase();
-        filtrarInventario(input); // Filtrar los datos sin ocultarlos completamente
-    });
-});
-
-function cargarDatos() {
-    fetch("https://script.google.com/macros/s/AKfycbwSbfK1H8E_SI2YVbP0-ZhqNEup1Hp3SMrgw0Mq3io7ZtnCTw1eXL1_uPg05h5GkXUgZA/exec") 
-        .then(response => response.json())
-        .then(datos => {
-            let tabla = document.getElementById("tablaCuerpo");
-            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los nuevos datos
-
-            datos.forEach(item => {
-                let fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td class="producto">${item.producto}</td>
-                    <td>${item.cantidad}</td>
-                    <td>${item.tipo_medida}</td>
-                    <td>${item.fecha}</td>
-                    <td>${item.tipo_movimiento}</td>
-                    <td>${item.observaciones}</td>
-                `;
-                tabla.appendChild(fila); // Insertar fila en la tabla
-            });
-        })
-        .catch(error => console.error("❌ Error al obtener datos:", error));
-}
-
-function filtrarInventario(busqueda) {
-    let filas = document.querySelectorAll("#tablaCuerpo tr");
-
-    filas.forEach(fila => {
-        let producto = fila.querySelector(".producto")?.textContent.toLowerCase() || "";
-        fila.style.display = producto.includes(busqueda) ? "" : "none";
-    });
-}
-</script>
 </body>
 </html>
