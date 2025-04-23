@@ -9,7 +9,6 @@ function obtenerDatos($filtro, $valor) {
     global $scriptUrl, $spreadsheetId;
     $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
 
-    // 📌 Usar cURL para obtener los datos
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -19,12 +18,13 @@ function obtenerDatos($filtro, $valor) {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    // 📌 Imprimir la respuesta JSON ANTES de procesarla para verificar su contenido
-    echo "<pre>🔍 Respuesta de Google Sheets:<br>";
-    print_r($response);
-    echo "</pre>";
+    $jsonData = json_decode($response, true);
 
-    return json_decode($response, true);
+    if ($jsonData === null || !is_array($jsonData)) {
+        return [];
+    }
+
+    return $jsonData;
 }
 
 ?>
@@ -59,8 +59,7 @@ function obtenerDatos($filtro, $valor) {
                         $valor = $_GET["valor"];
                         $datos = obtenerDatos($filtro, $valor);
 
-                        // 📌 Verificar si los datos recibidos son válidos
-                        if (!empty($datos) && is_array($datos)) {
+                        if (!empty($datos)) {
                             foreach ($datos as $pedido) {
                                 echo "<tr>
                                         <td>{$pedido['remision']}</td>
