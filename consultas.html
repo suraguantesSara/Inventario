@@ -3,47 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Pedidos</title>
+    <title>Consulta de Inventario</title>
     <link rel="stylesheet" href="consultas.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>📊 Consulta de Pedidos</h1>
+        <h1>🔍 Consulta de Inventario</h1>
 
-        <form method="GET" action="consultas.php" class="consulta-form">
-            <label for="filtro">Seleccionar filtro de búsqueda:</label>
-            <select name="filtro" id="filtro">
-                <option value="remision">Número de Remisión</option>
-                <option value="articulo">Artículo</option>
-                <option value="taller">Taller</option>
-                <option value="fecha_despacho">Fecha de Despacho</option>
-            </select>
+        <section class="filtro">
+            <input type="text" id="buscar" placeholder="Buscar producto...">
+            <button id="btnBuscar">🔍 Buscar</button>
+        </section>
 
-            <input type="text" name="valor" placeholder="Ingrese el valor del filtro">
-            <button type="submit">🔍 Buscar</button>
-        </form>
+        <section class="tabla-container">
+            <table id="tablaInventario">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Tipo de Medida</th>
+                        <th>Fecha</th>
+                        <th>Movimiento</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCuerpo">
+                    <!-- Aquí se insertarán los datos dinámicamente -->
+                </tbody>
+            </table>
+        </section>
 
-        <h2>📑 Lista de Pedidos</h2>
-        <table id="tablaResultados">
-            <thead>
-                <tr>
-                    <th>Seleccionar</th>
-                    <th>Remisión</th>
-                    <th>Artículo</th>
-                    <th>Taller</th>
-                    <th>Fecha de Despacho</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php include 'consultas.php'; ?>
-            </tbody>
-        </table>
-
-        <button id="generarPDF">📥 Generar Informe PDF</button>
+        <footer>
+            <button onclick="window.location.href='index.html'">🔙 Atrás</button>
+        </footer>
     </div>
 
-    <script src="consultas.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch("https://inventario-l1it.onrender.com/consultas.php")
+        .then(response => response.json())
+        .then(datos => {
+            let tabla = document.getElementById("tablaCuerpo");
+            tabla.innerHTML = ""; // Limpiar la tabla antes de insertar los datos
+
+    datos.forEach(item => {
+    let fila = document.createElement("tr");
+    fila.innerHTML = `
+        <td class="producto">${item.producto}</td>
+        <td>${item.cantidad}</td>
+        <td>${item.tipo_medida}</td>
+        <td>${item.fecha}</td>
+        <td>${item.tipo_movimiento === "entrada" ? "📥 Entrada" : "📤 Salida"}</td>
+        <td>${item.observaciones}</td>
+    `;
+    tabla.appendChild(fila); // Insertar fila en la tabla
+});
+            });
+
+            // Activamos el filtro después de cargar los datos
+            document.getElementById("buscar").addEventListener("input", filtrarInventario);
+            document.getElementById("btnBuscar").addEventListener("click", filtrarInventario);
+        })
+        .catch(error => console.error("❌ Error al obtener datos:", error));
+});
+
+// Filtrar los productos en tiempo real
+function filtrarInventario() {
+    let input = document.getElementById("buscar").value.trim().toLowerCase();
+    let filas = document.querySelectorAll("#tablaCuerpo tr");
+
+    filas.forEach(fila => {
+        let producto = fila.querySelector(".producto")?.textContent.toLowerCase() || "";
+        fila.style.display = producto.includes(input) ? "" : "none";
+    });
+}
+</script>
+
 </body>
 </html>
