@@ -1,76 +1,30 @@
 <?php
+header("Content-Type: application/json"); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
-$scriptUrl = "https://script.google.com/macros/s/AKfycbzdHPn9XCqcvjSv7fIKRQtZN2o4IDlqh5yVvvPCrMgC751W_MT0IFCKHtrPchuOZSWc/exec";
+$url = "https://script.google.com/macros/s/AKfycbzRO7aDjWQ76e23GZy8mF0EH912TJDS3h2WejCUk3e3ownvXMrnZjPpjZmLhBlylb20/exec"; // URL de Apps Script
 
-function obtenerDatos() {
-    global $scriptUrl;
-    $url = "$scriptUrl";
+$response = file_get_contents($url);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+echo $response; // Devuelve los datos en formato JSON
 
-    $response = curl_exec($ch);
-    curl_close($ch);
 
-    return json_decode($response, true);
+
+header('Content-Type: application/json');
+include 'procesar.php'; // Asegúrate de que la conexión esté bien configurada
+
+if (isset($_GET['producto'])) {
+    $producto = $_GET['producto'];
+    $consulta = $conn->prepare("SELECT * FROM inventario WHERE producto LIKE ?");
+    $consulta->execute(["%$producto%"]);
+    $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($resultado);
+} else {
+    // Si no se envía ningún producto específico, mostramos todos los registros
+    $consulta = $conn->query("SELECT * FROM inventario");
+    $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($datos);
 }
-
-$datos = obtenerDatos();
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Pedidos</title>
-    <link rel="stylesheet" href="consultas.css">
-</head>
-<body>
-
-    <div class="container">
-        <h1>📊 Consulta de Pedidos</h1>
-
-        <table id="tablaResultados">
-            <thead>
-                <tr>
-                    <th>Seleccionar</th>
-                    <th>Remisión</th>
-                    <th>Artículo</th>
-                    <th>Taller</th>
-                    <th>Fecha de Despacho</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!empty($datos)) {
-                    foreach ($datos as $pedido) {
-                        echo "<tr>
-                                <td><input type='checkbox' class='seleccionar' data-pedido='".json_encode($pedido)."'></td>
-                                <td>{$pedido['remision']}</td>
-                                <td>{$pedido['articulo']}</td>
-                                <td>{$pedido['taller']}</td>
-                                <td>{$pedido['fecha_despacho']}</td>
-                                <td>{$pedido['cantidad']}</td>
-                            </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='6'>⚠️ No se encontraron resultados.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-
-        <button id="generarPDF">📥 Generar Informe PDF</button>
-    </div>
-
-    <script src="consultas.js"></script>
-</body>
-</html>
